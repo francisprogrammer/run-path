@@ -24,12 +24,9 @@ namespace RP.Api.Features.GetAlbumByUsers
             
             var response = await _getAlbumsByUser.Get(new GetAlbumsByUserRequest(userId.Value));
 
-            if (!response.IsSuccess)
-            {
-                return BadRequest(response.FailureMessage);
-            }
-            
-            return Ok(response.Value);
+            return !response.IsSuccess
+                ? BadRequest(response.FailureMessage)
+                : (IActionResult) Ok(response.Value);
         }
     }
 }
